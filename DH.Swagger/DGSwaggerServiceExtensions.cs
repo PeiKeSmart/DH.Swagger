@@ -133,6 +133,8 @@ public static class NetProSwaggerMiddlewareExtensions
     {
         var configuration = application.ApplicationServices.GetService(typeof(IConfiguration)) as IConfiguration;
 
+        XTrace.WriteLine($"DH Swagger Middleware:{configuration.GetValue<bool>("SwaggerOption:Enabled", false)}");
+
         if (configuration.GetValue<bool>("SwaggerOption:Enabled", false))
         {
             var openApiInfo = configuration.GetSection("SwaggerOption").Get<OpenApiInfo>();
