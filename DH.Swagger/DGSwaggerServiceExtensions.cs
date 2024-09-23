@@ -133,7 +133,7 @@ public static class NetProSwaggerMiddlewareExtensions
     {
         var configuration = application.ApplicationServices.GetService(typeof(IConfiguration)) as IConfiguration;
 
-        XTrace.WriteLine($"DH Swagger Middleware:{configuration.GetValue<bool>("SwaggerOption:Enabled", false)}");
+        XTrace.WriteLine($"DH Swagger Middleware1:{configuration.GetValue<bool>("SwaggerOption:Enabled", false)}");
 
         if (configuration.GetValue<bool>("SwaggerOption:Enabled", false))
         {
