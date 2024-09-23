@@ -1,7 +1,10 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFramework>net8.0</TargetFramework>
+    <LangVersion>latest</LangVersion>
     <OutputType>Library</OutputType>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <TargetFramework>net8.0</TargetFramework>
+    <AssemblyName>DH.Swagger</AssemblyName>
     <RootNamespace>DH.Swagger</RootNamespace>
     <AssemblyTitle>Swagger扩展库</AssemblyTitle>
     <Description>用于DH框架的Swagger扩展库，包含认证，文件上传，公共参，个性主题，参考https://gitee.com/feiyit/fytapi.mui</Description>
@@ -15,8 +18,6 @@
     <Deterministic>false</Deterministic>
     <OutputPath>..\Bin</OutputPath>
     <GenerateDocumentationFile>True</GenerateDocumentationFile>
-    <ImplicitUsings>enable</ImplicitUsings>
-    <LangVersion>latest</LangVersion>
     <NoWarn>1701;1702;1591;NU5104;NU1505;NETSDK1138;CS7035</NoWarn>
     <!--禁止生成launchSettings.json-->
     <NoDefaultLaunchSettingsFile>True</NoDefaultLaunchSettingsFile>
