@@ -1,5 +1,7 @@
 ﻿using System.Reflection;
 
+using Asp.Versioning;
+
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
@@ -101,8 +103,27 @@ public static class NetProSwaggerServiceExtensions
             c.OperationFilter<SecurityRequirementsOperationFilter>();
 
             c.EnableAnnotations(); // 启用 Swagger 注释
+
+            // 使用解决冲突的策略
+            c.ResolveConflictingActions(apiDescriptions =>
+            {
+                return apiDescriptions.First();
+            });
         });
         services.AddSwaggerGenNewtonsoftSupport();
+        services.AddApiVersioning(options =>
+        {
+            options.DefaultApiVersion = new ApiVersion(1, 0); // 默认版本: 1.0
+            options.AssumeDefaultVersionWhenUnspecified = true;
+            options.ReportApiVersions = true;
+            // 结合多种版本控制方式
+            options.ApiVersionReader = ApiVersionReader.Combine(
+                new QueryStringApiVersionReader("version"),
+                new UrlSegmentApiVersionReader(),
+                new HeaderApiVersionReader("X-API-Version"),
+                new MediaTypeApiVersionReader("version")
+        );
+        });
 
         return services;
     }
