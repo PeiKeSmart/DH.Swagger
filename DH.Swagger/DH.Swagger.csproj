@@ -107,8 +107,8 @@
 
   <ItemGroup>
     <PackageReference Include="Asp.Versioning.Mvc" Version="8.1.0" />
-    <PackageReference Include="Pek.Common" Version="3.91.2024.1021-beta0655" />
-    <PackageReference Include="Pek.VirtualFileSystem" Version="3.91.2024.1022-beta0820" />
+    <PackageReference Include="Pek.Common" Version="3.91.2024.1026-beta1447" />
+    <PackageReference Include="Pek.VirtualFileSystem" Version="3.91.2024.1028-beta0848" />
     <PackageReference Include="Swashbuckle.AspNetCore.Filters" Version="8.0.2" />
     <PackageReference Include="Swashbuckle.AspNetCore.Newtonsoft" Version="6.9.0" />
     <PackageReference Include="Swashbuckle.AspNetCore.ReDoc" Version="6.9.0" />
