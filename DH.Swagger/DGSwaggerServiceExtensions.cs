@@ -58,7 +58,7 @@ public static class NetProSwaggerServiceExtensions
                 }
             });
 
-            var typeFinder = Singleton<ITypeFinder>.Instance;
+            var typeFinder = NewLife.Model.ObjectContainer.Provider.GetPekService<ITypeFinder>();
             var DHSwaggers = typeFinder.FindClassesOfType<IDHSwagger>();
             var list = DHSwaggers
             .Select(swagger => (IDHSwagger)Activator.CreateInstance(swagger));
