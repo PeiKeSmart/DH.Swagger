@@ -9,7 +9,7 @@ using Pek.VirtualFileSystem;
 
 namespace DH.Swagger;
 
-public class DHStartup : IDHStartup {
+public class DHStartup : IPekStartup {
     public void ChangeMenu()
     {
 
@@ -76,6 +76,14 @@ public class DHStartup : IDHStartup {
     public void AfterAuth(IApplicationBuilder application)
     {
 
+    }
+
+    /// <summary>
+    /// 处理数据
+    /// </summary>
+    public void ProcessData()
+    {
+        
     }
 
     /// <summary>
