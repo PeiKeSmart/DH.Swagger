@@ -26,11 +26,11 @@ public static class NetProSwaggerServiceExtensions
     {
         if (!configuration.GetValue<bool>("SwaggerOption:Enabled", false))
         {
-            XTrace.WriteLine($"DH Swagger 已关闭");
+            XTrace.WriteLine($"[NetProSwaggerServiceExtensions.AddNetProSwagger]DH Swagger 已关闭");
             return services;
         }
         else
-            XTrace.WriteLine($"DH Swagger 已启用");
+            XTrace.WriteLine($"[NetProSwaggerServiceExtensions.AddNetProSwagger]DH Swagger 已启用");
 
         services
             .Configure<OpenApiInfo>(configuration.GetSection("SwaggerOption"));
@@ -154,7 +154,7 @@ public static class NetProSwaggerMiddlewareExtensions
     {
         var configuration = application.ApplicationServices.GetService(typeof(IConfiguration)) as IConfiguration;
 
-        XTrace.WriteLine($"DH Swagger Middleware1:{configuration.GetValue<bool>("SwaggerOption:Enabled", false)}");
+        XTrace.WriteLine($"[NetProSwaggerMiddlewareExtensions.UseNetProSwagger]DH Swagger Middleware1:{configuration.GetValue<bool>("SwaggerOption:Enabled", false)}");
 
         if (configuration.GetValue<bool>("SwaggerOption:Enabled", false))
         {
