@@ -219,7 +219,7 @@ public class DGSwaggerMiddleware
     public async Task InvokeAsync(HttpContext context)
     {
 
-        await _next(context);
+        await _next(context).ConfigureAwait(false);
         return;
     }
 }

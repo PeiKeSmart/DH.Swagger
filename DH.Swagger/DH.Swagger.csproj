@@ -22,6 +22,9 @@
     <!--禁止生成launchSettings.json-->
     <NoDefaultLaunchSettingsFile>True</NoDefaultLaunchSettingsFile>
 
+    <AnalysisLevel>latest</AnalysisLevel>
+    <WarningsAsErrors>CA2007</WarningsAsErrors>
+
     <GenerateEmbeddedFilesManifest>true</GenerateEmbeddedFilesManifest>
     <!--<StaticWebAssetsEnabled>false</StaticWebAssetsEnabled>-->
   </PropertyGroup>
@@ -107,8 +110,8 @@
 
   <ItemGroup>
     <PackageReference Include="Asp.Versioning.Mvc" Version="8.1.0" />
-    <PackageReference Include="Pek.Common" Version="4.0.2025.104-beta1049" />
-    <PackageReference Include="Pek.VirtualFileSystem" Version="4.0.2025.105-beta0320" />
+    <PackageReference Include="Pek.Common" Version="4.0.2025.106-beta0936" />
+    <PackageReference Include="Pek.VirtualFileSystem" Version="4.0.2025.106-beta0947" />
     <PackageReference Include="Swashbuckle.AspNetCore.Filters" Version="8.0.2" />
     <PackageReference Include="Swashbuckle.AspNetCore.Newtonsoft" Version="7.2.0" />
     <PackageReference Include="Swashbuckle.AspNetCore.ReDoc" Version="7.2.0" />

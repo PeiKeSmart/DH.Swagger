@@ -36,16 +36,16 @@ public class ApiUIMiddleware {
         var path = httpContext.Request.Path.Value;
         if (httpMethod == "GET" && Regex.IsMatch(path, $"^/api-config$"))
         {
-            await RespondWithConfig(httpContext.Response);
+            await RespondWithConfig(httpContext.Response).ConfigureAwait(false);
             return;
         }
 
         // 或请求管道中调用下一个中间件
-        await _next(httpContext);
+        await _next(httpContext).ConfigureAwait(false);
     }
 
     private async Task RespondWithConfig(HttpResponse response)
     {
-        await response.WriteAsync(JsonSerializer.Serialize(_options.ConfigObject, _jsonSerializerOptions));
+        await response.WriteAsync(JsonSerializer.Serialize(_options.ConfigObject, _jsonSerializerOptions)).ConfigureAwait(false);
     }
 }
