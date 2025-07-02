@@ -172,7 +172,6 @@ public static class NetProSwaggerMiddlewareExtensions
                 c.DocExpansion(DocExpansion.List);
                 c.EnableDeepLinking();
                 c.EnableFilter();
-                c.MaxDisplayedTags(5);
                 c.ShowExtensions();
                 c.EnableValidator();
                 //c.SupportedSubmitMethods(SubmitMethod.Get, SubmitMethod.Head);
