@@ -113,7 +113,6 @@
     <PackageReference Include="Pek.Common" Version="4.12.2025.626-beta1317" />
     <PackageReference Include="Pek.VirtualFileSystem" Version="4.12.2025.530-beta0640" />
     <PackageReference Include="Swashbuckle.AspNetCore.Filters" Version="9.0.0" />
-    <PackageReference Include="Swashbuckle.AspNetCore.Newtonsoft" Version="9.0.1" />
     <PackageReference Include="Swashbuckle.AspNetCore.ReDoc" Version="9.0.1" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="9.0.1" />
     <PackageReference Include="Swashbuckle.AspNetCore.Annotations" Version="9.0.1" />

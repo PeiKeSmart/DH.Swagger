@@ -110,7 +110,6 @@ public static class NetProSwaggerServiceExtensions
                 return apiDescriptions.First();
             });
         });
-        services.AddSwaggerGenNewtonsoftSupport();
         services.AddApiVersioning(options =>
         {
             options.DefaultApiVersion = new ApiVersion(1, 0); // 默认版本: 1.0

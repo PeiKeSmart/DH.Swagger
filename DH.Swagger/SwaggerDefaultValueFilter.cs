@@ -8,8 +8,6 @@ using Microsoft.Extensions.Options;
 using Microsoft.OpenApi.Any;
 using Microsoft.OpenApi.Models;
 
-using Newtonsoft.Json.Converters;
-
 using Swashbuckle.AspNetCore.SwaggerGen;
 
 namespace DH.Swagger;
@@ -19,11 +17,9 @@ namespace DH.Swagger;
 /// </summary>
 public class SwaggerDefaultValueFilter : IOperationFilter
 {
-    private readonly dynamic _mvcJsonOptions;
-
-    public SwaggerDefaultValueFilter(IOptions<dynamic> mvcJsonOptions)
+    public SwaggerDefaultValueFilter()
     {
-        _mvcJsonOptions = mvcJsonOptions.Value;
+        // 移除了 Newtonsoft.Json 依赖，不再需要 mvcJsonOptions
     }
 
     public void Apply(OpenApiOperation operation, OperationFilterContext context)
@@ -42,7 +38,6 @@ public class SwaggerDefaultValueFilter : IOperationFilter
             if (parameterValuePairs.TryGetValue(parameter.Name, out var defaultValue))
             {
                 parameter.Extensions.Add("default", new OpenApiString(defaultValue?.ToString()));
-
             }
         }
     }
@@ -70,45 +65,27 @@ public class SwaggerDefaultValueFilter : IOperationFilter
     {
         var parameterInfo = GetParameterInfo(parameter);
 
-        if (parameterInfo.HasDefaultValue)
+        if (parameterInfo?.HasDefaultValue == true)
         {
             if (parameter.Type.IsEnum)
             {
-                var stringEnumConverter = _mvcJsonOptions.SerializerSettings.Converters
-                    .OfType<StringEnumConverter>()
-                    .FirstOrDefault();
-
-                if (stringEnumConverter != null)
-                {
-                    if (parameterInfo.DefaultValue != null)
-                    {
-                        var defaultValue = parameterInfo.DefaultValue.ToString();
-                        return stringEnumConverter.CamelCaseText ? ToCamelCase(defaultValue) : defaultValue;
-                    }
-                }
+                // 对于枚举类型，直接返回默认值，不再依赖 Newtonsoft.Json 的 StringEnumConverter
+                return parameterInfo.DefaultValue?.ToString();
             }
 
             return parameterInfo.DefaultValue;
         }
 
         var defaultValueAttribute = GetDefaultValueAttribute(parameter);
-
-        return defaultValueAttribute.Value;
-    }
-
-    private string ToCamelCase(string name)
-    {
-        return char.ToLowerInvariant(name[0]) + name.Substring(1);
+        return defaultValueAttribute?.Value;
     }
 }
 
 public class SwaggerJsonDefaultValueFilter : IOperationFilter
 {
-    //private JsonSerializer _jsonSerializer;
-
-    public SwaggerJsonDefaultValueFilter(IOptions<dynamic> mvcJsonOptions)
+    public SwaggerJsonDefaultValueFilter()
     {
-        //_jsonSerializer = JsonSerializer.CreateDefault(mvcJsonOptions.Value.SerializerSettings);
+        // 移除了 Newtonsoft.Json 依赖
     }
 
     public void Apply(OpenApiOperation operation, OperationFilterContext context)
@@ -125,8 +102,6 @@ public class SwaggerJsonDefaultValueFilter : IOperationFilter
                 parameter.Required = false;
                 if (defaultValue != null)
                 {
-                    //var jValue = (JValue)JValue.FromObject(defaultValue, _jsonSerializer);
-                    //parameter.Extensions.Add("default", jValue.Value);
                     parameter.Extensions.Add("default", new OpenApiString(defaultValue.ToString()));
                 }
             }
