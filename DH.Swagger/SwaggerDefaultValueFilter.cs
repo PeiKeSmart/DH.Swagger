@@ -1,12 +1,12 @@
 ﻿using System.ComponentModel;
 using System.Reflection;
+using System.Text.Json.Nodes;
 
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using Microsoft.AspNetCore.Mvc.Controllers;
 using Microsoft.AspNetCore.Mvc.ModelBinding.Metadata;
 using Microsoft.Extensions.Options;
-using Microsoft.OpenApi.Any;
-using Microsoft.OpenApi.Models;
+using Microsoft.OpenApi;
 
 using Swashbuckle.AspNetCore.SwaggerGen;
 
@@ -35,9 +35,9 @@ public class SwaggerDefaultValueFilter : IOperationFilter
         if (parameterValuePairs.Count == 0) return;
         foreach (var parameter in operation.Parameters)
         {
-            if (parameterValuePairs.TryGetValue(parameter.Name, out var defaultValue))
+            if (parameterValuePairs.TryGetValue(parameter.Name, out var defaultValue) && defaultValue != null)
             {
-                parameter.Extensions.Add("default", new OpenApiString(defaultValue?.ToString()));
+                parameter.Extensions.Add("default", new JsonNodeExtension(JsonValue.Create(defaultValue.ToString())));
             }
         }
     }
@@ -97,13 +97,9 @@ public class SwaggerJsonDefaultValueFilter : IOperationFilter
 
         foreach (var parameter in operation.Parameters)
         {
-            if (parameterValuePairs.TryGetValue(parameter.Name, out var defaultValue))
+            if (parameterValuePairs.TryGetValue(parameter.Name, out var defaultValue) && defaultValue != null)
             {
-                parameter.Required = false;
-                if (defaultValue != null)
-                {
-                    parameter.Extensions.Add("default", new OpenApiString(defaultValue.ToString()));
-                }
+                parameter.Extensions.Add("default", new JsonNodeExtension(JsonValue.Create(defaultValue.ToString())));
             }
         }
     }

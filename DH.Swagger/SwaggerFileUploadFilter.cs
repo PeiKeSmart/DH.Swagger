@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Http;
-using Microsoft.OpenApi.Models;
+using Microsoft.OpenApi;
 
 using Swashbuckle.AspNetCore.SwaggerGen;
 
@@ -57,7 +57,7 @@ public class SwaggerFileUploadFilter : IOperationFilter
                 {
                     Schema = new OpenApiSchema
                     {
-                        Type = "string",
+                        Type = JsonSchemaType.String,
                         Format = "binary"
                     }
                 }
@@ -66,9 +66,13 @@ public class SwaggerFileUploadFilter : IOperationFilter
         });
     }
 
-    private void RemoveExistingFileParameters(IList<OpenApiParameter> operationParameters)
+    private void RemoveExistingFileParameters(IList<IOpenApiParameter> operationParameters)
     {
-        foreach (var parameter in operationParameters.Where(p => p.In == 0 && FileParameters.Contains(p.Name)).ToList())
+        var parametersToRemove = operationParameters
+            .OfType<OpenApiParameter>()
+            .Where(p => p.In == 0 && FileParameters.Contains(p.Name))
+            .ToList();
+        foreach (var parameter in parametersToRemove)
         {
             operationParameters.Remove(parameter);
         }

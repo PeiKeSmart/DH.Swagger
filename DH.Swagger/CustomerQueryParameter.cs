@@ -1,5 +1,5 @@
 ﻿using Microsoft.Extensions.Configuration;
-using Microsoft.OpenApi.Models;
+using Microsoft.OpenApi;
 
 using Swashbuckle.AspNetCore.SwaggerGen;
 
@@ -17,7 +17,7 @@ public class CustomerQueryParameter : IOperationFilter
     {
         if (operation.Parameters == null)
         {
-            operation.Parameters = new List<OpenApiParameter>();
+            operation.Parameters = new List<IOpenApiParameter>();
         }
 
         var queryArray = _configuration.GetSection("SwaggerOption:Query").Get<List<OpenApiParameter>>();
@@ -29,7 +29,6 @@ public class CustomerQueryParameter : IOperationFilter
             {
                 Name = query.Name,
                 In = ParameterLocation.Query,
-                Required = false,
                 Description = query.Description,
             });
         }

@@ -1,5 +1,5 @@
 ﻿using Microsoft.Extensions.Configuration;
-using Microsoft.OpenApi.Models;
+using Microsoft.OpenApi;
 
 using Swashbuckle.AspNetCore.SwaggerGen;
 
@@ -17,7 +17,7 @@ public class CustomerHeaderParameter : IOperationFilter
     {
         if (operation.Parameters == null)
         {
-            operation.Parameters = new List<OpenApiParameter>();
+            operation.Parameters = new List<IOpenApiParameter>();
         }
 
         var headers = _configuration.GetSection("SwaggerOption:Headers").Get<List<OpenApiParameter>>();
@@ -28,7 +28,6 @@ public class CustomerHeaderParameter : IOperationFilter
             {
                 Name = header.Name,
                 In = ParameterLocation.Header,
-                Required = false,
                 Description = header.Description,
             });
         }
