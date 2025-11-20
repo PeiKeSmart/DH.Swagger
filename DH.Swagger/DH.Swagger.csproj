@@ -3,14 +3,14 @@
     <LangVersion>latest</LangVersion>
     <OutputType>Library</OutputType>
     <ImplicitUsings>enable</ImplicitUsings>
-    <TargetFramework>net10.0</TargetFramework>
+    <TargetFrameworks>net9.0;net10.0</TargetFrameworks>
     <AssemblyName>DH.Swagger</AssemblyName>
     <RootNamespace>DH.Swagger</RootNamespace>
     <AssemblyTitle>Swagger扩展库</AssemblyTitle>
     <Description>用于DH框架的Swagger扩展库，包含认证，文件上传，公共参，个性主题，参考https://gitee.com/feiyit/fytapi.mui</Description>
     <Company>湖北登灏科技有限公司</Company>
     <Copyright>©2020-2025 湖北登灏科技有限公司</Copyright>
-    <VersionPrefix>4.13</VersionPrefix>
+    <VersionPrefix>4.16</VersionPrefix>
     <VersionSuffix>$([System.DateTime]::Now.ToString(`yyyy.MMdd`))</VersionSuffix>
     <Version>$(VersionPrefix).$(VersionSuffix)</Version>
     <FileVersion>$(Version)</FileVersion>
@@ -78,12 +78,12 @@
 
   <ItemGroup>
     <PackageReference Include="Asp.Versioning.Mvc" Version="8.1.0" />
-    <PackageReference Include="Pek.Common" Version="4.15.2025.1029-beta1406" />
-    <PackageReference Include="Pek.VirtualFileSystem" Version="4.14.2025.1029-beta1416" />
-    <PackageReference Include="Swashbuckle.AspNetCore.Filters" Version="9.0.1" />
-    <PackageReference Include="Swashbuckle.AspNetCore.ReDoc" Version="9.0.6" />
-    <PackageReference Include="Swashbuckle.AspNetCore" Version="9.0.6" />
-    <PackageReference Include="Swashbuckle.AspNetCore.Annotations" Version="9.0.6" />
+    <PackageReference Include="Pek.Common" Version="4.16.2025.1117-beta0408" />
+    <PackageReference Include="Pek.VirtualFileSystem" Version="4.16.2025.1114-beta0958" />
+    <PackageReference Include="Swashbuckle.AspNetCore.Filters" Version="10.0.0" />
+    <PackageReference Include="Swashbuckle.AspNetCore.ReDoc" Version="10.0.1" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="10.0.1" />
+    <PackageReference Include="Swashbuckle.AspNetCore.Annotations" Version="10.0.1" />
   </ItemGroup>
 
   <ItemGroup>
