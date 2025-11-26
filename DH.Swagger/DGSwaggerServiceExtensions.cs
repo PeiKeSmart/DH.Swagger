@@ -24,6 +24,21 @@ public static class NetProSwaggerServiceExtensions
 {
     public static IServiceCollection AddNetProSwagger(this IServiceCollection services, IConfiguration configuration)
     {
+        // API 版本控制始终启用，不受 Swagger 开关影响
+        services.AddApiVersioning(options =>
+        {
+            options.DefaultApiVersion = new ApiVersion(1, 0); // 默认版本: 1.0
+            options.AssumeDefaultVersionWhenUnspecified = true;
+            options.ReportApiVersions = true;
+            // 结合多种版本控制方式
+            options.ApiVersionReader = ApiVersionReader.Combine(
+                new QueryStringApiVersionReader("version"),
+                new UrlSegmentApiVersionReader(),
+                new HeaderApiVersionReader("X-API-Version"),
+                new MediaTypeApiVersionReader("version")
+            );
+        });
+
         if (!configuration.GetValue<bool>("SwaggerOption:Enabled", false))
         {
             XTrace.WriteLine($"[NetProSwaggerServiceExtensions.AddNetProSwagger]DH Swagger 已关闭");
@@ -109,19 +124,6 @@ public static class NetProSwaggerServiceExtensions
             {
                 return apiDescriptions.First();
             });
-        });
-        services.AddApiVersioning(options =>
-        {
-            options.DefaultApiVersion = new ApiVersion(1, 0); // 默认版本: 1.0
-            options.AssumeDefaultVersionWhenUnspecified = true;
-            options.ReportApiVersions = true;
-            // 结合多种版本控制方式
-            options.ApiVersionReader = ApiVersionReader.Combine(
-                new QueryStringApiVersionReader("version"),
-                new UrlSegmentApiVersionReader(),
-                new HeaderApiVersionReader("X-API-Version"),
-                new MediaTypeApiVersionReader("version")
-        );
         });
 
         return services;
