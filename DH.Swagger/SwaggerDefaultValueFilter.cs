@@ -30,17 +30,14 @@ public class SwaggerDefaultValueFilter : IOperationFilter
         }
 
         var parameterValuePairs = context.ApiDescription.ParameterDescriptions
-            .Where(parameter => parameter?.Name != null && (GetDefaultValueAttribute(parameter) != null || (GetParameterInfo(parameter)?.HasDefaultValue ?? false)))
+            .Where(parameter => parameter != null && !String.IsNullOrEmpty(parameter.Name) && (GetDefaultValueAttribute(parameter) != null || (GetParameterInfo(parameter)?.HasDefaultValue ?? false)))
             .ToDictionary(parameter => parameter.Name, GetDefaultValue);
         if (parameterValuePairs.Count == 0) return;
         foreach (var parameter in operation.Parameters)
         {
-            if (parameter?.Name != null && parameterValuePairs.TryGetValue(parameter.Name, out var defaultValue) && defaultValue != null)
+            if (parameterValuePairs.TryGetValue(parameter.Name, out var defaultValue) && defaultValue != null)
             {
-                if (!parameter.Extensions.ContainsKey("default"))
-                {
-                    parameter.Extensions.Add("default", new JsonNodeExtension(JsonValue.Create(defaultValue.ToString())));
-                }
+                parameter.Extensions.TryAdd("default", new JsonNodeExtension(JsonValue.Create(defaultValue.ToString())));
             }
         }
     }
@@ -70,7 +67,7 @@ public class SwaggerDefaultValueFilter : IOperationFilter
 
         if (parameterInfo?.HasDefaultValue == true)
         {
-            if (parameter.Type.IsEnum)
+            if (parameter.Type?.IsEnum == true)
             {
                 // 对于枚举类型，直接返回默认值，不再依赖 Newtonsoft.Json 的 StringEnumConverter
                 return parameterInfo.DefaultValue?.ToString();
@@ -95,17 +92,14 @@ public class SwaggerJsonDefaultValueFilter : IOperationFilter
     {
         if (operation.Parameters == null) return;
         var parameterValuePairs = context.ApiDescription.ParameterDescriptions
-            .Where(parameter => parameter?.Name != null && (GetDefaultValueAttribute(parameter) != null || (GetParameterInfo(parameter)?.HasDefaultValue ?? false)))
+            .Where(parameter => parameter != null && !String.IsNullOrEmpty(parameter.Name) && (GetDefaultValueAttribute(parameter) != null || (GetParameterInfo(parameter)?.HasDefaultValue ?? false)))
             .ToDictionary(parameter => parameter.Name, GetDefaultValue);
 
         foreach (var parameter in operation.Parameters)
         {
-            if (parameter?.Name != null && parameterValuePairs.TryGetValue(parameter.Name, out var defaultValue) && defaultValue != null)
+            if (parameterValuePairs.TryGetValue(parameter.Name, out var defaultValue) && defaultValue != null)
             {
-                if (!parameter.Extensions.ContainsKey("default"))
-                {
-                    parameter.Extensions.Add("default", new JsonNodeExtension(JsonValue.Create(defaultValue.ToString())));
-                }
+                parameter.Extensions.TryAdd("default", new JsonNodeExtension(JsonValue.Create(defaultValue.ToString())));
             }
         }
     }
