@@ -24,7 +24,12 @@ public class SwaggerDefaultValueFilter : IOperationFilter
 
     public void Apply(OpenApiOperation operation, OperationFilterContext context)
     {
-        if (operation.Parameters == null || !operation.Parameters.Any())
+        if (operation?.Parameters == null || !operation.Parameters.Any())
+        {
+            return;
+        }
+
+        if (context?.ApiDescription?.ParameterDescriptions == null)
         {
             return;
         }
@@ -33,8 +38,12 @@ public class SwaggerDefaultValueFilter : IOperationFilter
             .Where(parameter => parameter != null && !String.IsNullOrEmpty(parameter.Name) && (GetDefaultValueAttribute(parameter) != null || (GetParameterInfo(parameter)?.HasDefaultValue ?? false)))
             .ToDictionary(parameter => parameter.Name, GetDefaultValue);
         if (parameterValuePairs.Count == 0) return;
+        
         foreach (var parameter in operation.Parameters)
         {
+            if (parameter == null || String.IsNullOrEmpty(parameter.Name) || parameter.Extensions == null)
+                continue;
+                
             if (parameterValuePairs.TryGetValue(parameter.Name, out var defaultValue) && defaultValue != null)
             {
                 parameter.Extensions.TryAdd("default", new JsonNodeExtension(JsonValue.Create(defaultValue.ToString())));
@@ -90,13 +99,22 @@ public class SwaggerJsonDefaultValueFilter : IOperationFilter
 
     public void Apply(OpenApiOperation operation, OperationFilterContext context)
     {
-        if (operation.Parameters == null) return;
+        if (operation?.Parameters == null) return;
+        
+        if (context?.ApiDescription?.ParameterDescriptions == null)
+        {
+            return;
+        }
+
         var parameterValuePairs = context.ApiDescription.ParameterDescriptions
             .Where(parameter => parameter != null && !String.IsNullOrEmpty(parameter.Name) && (GetDefaultValueAttribute(parameter) != null || (GetParameterInfo(parameter)?.HasDefaultValue ?? false)))
             .ToDictionary(parameter => parameter.Name, GetDefaultValue);
 
         foreach (var parameter in operation.Parameters)
         {
+            if (parameter == null || String.IsNullOrEmpty(parameter.Name) || parameter.Extensions == null)
+                continue;
+                
             if (parameterValuePairs.TryGetValue(parameter.Name, out var defaultValue) && defaultValue != null)
             {
                 parameter.Extensions.TryAdd("default", new JsonNodeExtension(JsonValue.Create(defaultValue.ToString())));
