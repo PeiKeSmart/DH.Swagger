@@ -37,7 +37,10 @@ public class SwaggerDefaultValueFilter : IOperationFilter
         {
             if (parameterValuePairs.TryGetValue(parameter.Name, out var defaultValue) && defaultValue != null)
             {
-                parameter.Extensions.Add("default", new JsonNodeExtension(JsonValue.Create(defaultValue.ToString())));
+                if (!parameter.Extensions.ContainsKey("default"))
+                {
+                    parameter.Extensions.Add("default", new JsonNodeExtension(JsonValue.Create(defaultValue.ToString())));
+                }
             }
         }
     }
@@ -99,7 +102,10 @@ public class SwaggerJsonDefaultValueFilter : IOperationFilter
         {
             if (parameterValuePairs.TryGetValue(parameter.Name, out var defaultValue) && defaultValue != null)
             {
-                parameter.Extensions.Add("default", new JsonNodeExtension(JsonValue.Create(defaultValue.ToString())));
+                if (!parameter.Extensions.ContainsKey("default"))
+                {
+                    parameter.Extensions.Add("default", new JsonNodeExtension(JsonValue.Create(defaultValue.ToString())));
+                }
             }
         }
     }
