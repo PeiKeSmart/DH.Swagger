@@ -92,7 +92,7 @@ public class SwaggerJsonDefaultValueFilter : IOperationFilter
     {
         if (operation.Parameters == null) return;
         var parameterValuePairs = context.ApiDescription.ParameterDescriptions
-            .Where(parameter => GetDefaultValueAttribute(parameter) != null || GetParameterInfo(parameter).HasDefaultValue)
+            .Where(parameter => GetDefaultValueAttribute(parameter) != null || (GetParameterInfo(parameter)?.HasDefaultValue ?? false))
             .ToDictionary(parameter => parameter.Name, GetDefaultValue);
 
         foreach (var parameter in operation.Parameters)
@@ -114,19 +114,19 @@ public class SwaggerJsonDefaultValueFilter : IOperationFilter
 
     public ParameterInfo GetParameterInfo(ApiParameterDescription parameter)
     {
-        return ((ControllerParameterDescriptor)parameter.ParameterDescriptor).ParameterInfo;
+        if (parameter.ParameterDescriptor != null)
+            return ((ControllerParameterDescriptor)parameter.ParameterDescriptor).ParameterInfo;
+        return null;
     }
 
     private object GetDefaultValue(ApiParameterDescription parameter)
     {
         var parameterInfo = GetParameterInfo(parameter);
-        if (parameterInfo.HasDefaultValue)
+        if (parameterInfo?.HasDefaultValue == true)
         {
             return parameterInfo.DefaultValue;
         }
-        else
-        {
-            return GetDefaultValueAttribute(parameter)?.Value;
-        }
+
+        return GetDefaultValueAttribute(parameter)?.Value;
     }
 }
