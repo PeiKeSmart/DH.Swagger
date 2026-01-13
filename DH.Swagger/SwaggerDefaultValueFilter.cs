@@ -30,12 +30,12 @@ public class SwaggerDefaultValueFilter : IOperationFilter
         }
 
         var parameterValuePairs = context.ApiDescription.ParameterDescriptions
-            .Where(parameter => GetDefaultValueAttribute(parameter) != null || (GetParameterInfo(parameter)?.HasDefaultValue ?? false))
+            .Where(parameter => parameter?.Name != null && (GetDefaultValueAttribute(parameter) != null || (GetParameterInfo(parameter)?.HasDefaultValue ?? false)))
             .ToDictionary(parameter => parameter.Name, GetDefaultValue);
         if (parameterValuePairs.Count == 0) return;
         foreach (var parameter in operation.Parameters)
         {
-            if (parameterValuePairs.TryGetValue(parameter.Name, out var defaultValue) && defaultValue != null)
+            if (parameter?.Name != null && parameterValuePairs.TryGetValue(parameter.Name, out var defaultValue) && defaultValue != null)
             {
                 if (!parameter.Extensions.ContainsKey("default"))
                 {
@@ -95,12 +95,12 @@ public class SwaggerJsonDefaultValueFilter : IOperationFilter
     {
         if (operation.Parameters == null) return;
         var parameterValuePairs = context.ApiDescription.ParameterDescriptions
-            .Where(parameter => GetDefaultValueAttribute(parameter) != null || (GetParameterInfo(parameter)?.HasDefaultValue ?? false))
+            .Where(parameter => parameter?.Name != null && (GetDefaultValueAttribute(parameter) != null || (GetParameterInfo(parameter)?.HasDefaultValue ?? false)))
             .ToDictionary(parameter => parameter.Name, GetDefaultValue);
 
         foreach (var parameter in operation.Parameters)
         {
-            if (parameterValuePairs.TryGetValue(parameter.Name, out var defaultValue) && defaultValue != null)
+            if (parameter?.Name != null && parameterValuePairs.TryGetValue(parameter.Name, out var defaultValue) && defaultValue != null)
             {
                 if (!parameter.Extensions.ContainsKey("default"))
                 {
