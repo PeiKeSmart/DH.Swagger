@@ -78,16 +78,16 @@
 
   <ItemGroup>
     <PackageReference Include="Asp.Versioning.Mvc" Version="8.1.0" />
-    <PackageReference Include="Pek.Common" Version="4.16.2026.110-beta0956" />
-    <PackageReference Include="Pek.VirtualFileSystem" Version="4.16.2026.107-beta0350" />
+    <PackageReference Include="Pek.Common" Version="4.20.2026.305-beta0949" />
+    <PackageReference Include="Pek.VirtualFileSystem" Version="4.18.2026.305-beta0954" />
     <PackageReference Include="Swashbuckle.AspNetCore.Filters" Version="10.0.1" />
-    <PackageReference Include="Swashbuckle.AspNetCore.ReDoc" Version="10.1.0" />
-    <PackageReference Include="Swashbuckle.AspNetCore" Version="10.1.0" />
-    <PackageReference Include="Swashbuckle.AspNetCore.Annotations" Version="10.1.0" />
+    <PackageReference Include="Swashbuckle.AspNetCore.ReDoc" Version="10.1.4" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="10.1.4" />
+    <PackageReference Include="Swashbuckle.AspNetCore.Annotations" Version="10.1.4" />
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="8.0.0">
+    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="10.0.103">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
